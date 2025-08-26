@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Life Hub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1 id="date"></h1>
+    <p id="statusMsg">Let’s start strong!</p>
+  </header>
+
+  <main>
+    <section id="checklist">
+      <h2>Daily Goals</h2>
+      <label class="task"><input type="checkbox" id="task1"> Workout 🏋️</label>
+      <label class="task"><input type="checkbox" id="task2"> Cardio 🏃</label>
+      <label class="task"><input type="checkbox" id="task3"> Book Read 📖</label>
+      <label class="task"><input type="checkbox" id="task4"> Coding / ISS 💻</label>
+    </section>
+
+    <section id="projectOfDay">
+      <h2>Project of the Day</h2>
+      <p id="todayProject"></p>
+    </section>
+
+    <section id="notesSection">
+      <h2>Notes / Journal</h2>
+      <textarea id="notes" placeholder="Optional notes..."></textarea>
+    </section>
+  </main>
+
+  <footer>
+    <p id="progressDisplay">Progress: 0%</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

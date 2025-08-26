@@ -1,0 +1,41 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 30px;
+  transition: background-color 0.5s;
+}
+
+header h1 {
+  margin-bottom: 5px;
+}
+
+header p {
+  margin-top: 0;
+  font-weight: bold;
+}
+
+main {
+  margin-top: 30px;
+}
+
+section {
+  margin-bottom: 30px;
+}
+
+.task {
+  display: block;
+  margin: 10px 0;
+  font-size: 20px;
+}
+
+textarea {
+  width: 80%;
+  height: 80px;
+  font-size: 16px;
+}
+
+footer {
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 18px;
+}
