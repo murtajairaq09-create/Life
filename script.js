@@ -6,15 +6,17 @@ dateElem.textContent = today.toDateString();
 // ======== Tasks & Progress ========
 const tasks = [task1, task2, task3, task4];
 const progressDisplay = document.getElementById("progressDisplay");
+const progressFill = document.getElementById("progressFill");
 const statusMsg = document.getElementById("statusMsg");
 
-const updateBackgroundAndProgress = () => {
+const updateProgress = () => {
   const checkedCount = tasks.filter(t => t.checked).length;
   const total = tasks.length;
   const progress = Math.round((checkedCount / total) * 100);
 
-  // Update progress text
-  progressDisplay.textContent = `Progress: ${progress}%`;
+  // Update progress bar and text
+  progressFill.style.width = progress + "%";
+  progressDisplay.textContent = `${progress}% Complete`;
 
   // Update status message
   switch (checkedCount) {
@@ -25,28 +27,19 @@ const updateBackgroundAndProgress = () => {
     case 4: statusMsg.textContent = "You crushed it today!"; break;
   }
 
-  // Update background color
-  switch (checkedCount) {
-    case 0: document.body.style.backgroundColor = '#f0f0f0'; break;
-    case 1: document.body.style.backgroundColor = '#fff4b2'; break;
-    case 2: document.body.style.backgroundColor = '#d0f0c0'; break;
-    case 3: document.body.style.backgroundColor = '#a8e6a3'; break;
-    case 4: document.body.style.backgroundColor = '#70d77e'; break;
-  }
-
   // Save to localStorage
   localStorage.setItem('tasksStatus', JSON.stringify(tasks.map(t => t.checked)));
 };
 
-// ======== Restore tasks from localStorage ========
+// Restore tasks from localStorage
 const savedStatus = JSON.parse(localStorage.getItem('tasksStatus'));
 if (savedStatus) {
   tasks.forEach((t, i) => t.checked = savedStatus[i]);
 }
-updateBackgroundAndProgress();
+updateProgress();
 
-// Add event listeners
-tasks.forEach(t => t.addEventListener('change', updateBackgroundAndProgress));
+// Event listeners
+tasks.forEach(t => t.addEventListener('change', updateProgress));
 
 // ======== Project of the Day ========
 const projects = [
@@ -59,6 +52,29 @@ const projects = [
 ];
 
 const todayProjectElem = document.getElementById("todayProject");
-// Simple daily rotation based on day of month
 const projectIndex = today.getDate() % projects.length;
 todayProjectElem.textContent = projects[projectIndex];
+
+// ======== Projects Tab ========
+const projectsListElem = document.getElementById("projectsList");
+projects.forEach(p => {
+  const li = document.createElement("li");
+  li.textContent = p;
+  projectsListElem.appendChild(li);
+});
+
+// ======== Tab Navigation ========
+const tabs = document.querySelectorAll(".tab-btn");
+const contents = document.querySelectorAll(".tab-content");
+
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    // Remove active class
+    tabs.forEach(t => t.classList.remove("active"));
+    contents.forEach(c => c.classList.remove("active"));
+
+    // Add active to clicked tab and corresponding content
+    tab.classList.add("active");
+    document.getElementById(tab.dataset.tab).classList.add("active");
+  });
+});
