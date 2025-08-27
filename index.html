@@ -2,50 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Personal Hub</title>
+  <title>Life Hub Dashboard</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
-    <h1>My Personal Hub</h1>
-    <nav>
-      <button onclick="showTab('journal')">Journal</button>
-      <button onclick="showTab('goals')">Daily Goals</button>
-      <button onclick="showTab('projects')">Projects</button>
-    </nav>
+    <h1 id="date"></h1>
+    <p id="statusMsg">Let’s start strong!</p>
   </header>
 
-  <main>
-    <!-- Journal Section -->
-    <section id="journal" class="tab active">
-      <h2>Journal</h2>
-      <textarea id="journalInput" placeholder="Write your journal entry..."></textarea>
-      <button onclick="saveJournal()">Save Entry</button>
-      <div id="journalEntries"></div>
-    </section>
+  <nav>
+    <button class="tab-btn active" data-tab="daily">Daily Goals</button>
+    <button class="tab-btn" data-tab="projects">Projects</button>
+    <button class="tab-btn" data-tab="journal">Journal</button>
+  </nav>
 
-    <!-- Daily Goals Section -->
-    <section id="goals" class="tab">
-      <h2>Daily Goals</h2>
-      <div id="goalsList">
-        <label><input type="checkbox"> Goal 1</label>
-        <label><input type="checkbox"> Goal 2</label>
-        <label><input type="checkbox"> Goal 3</label>
+  <main>
+    <!-- Daily Goals Tab -->
+    <section id="daily" class="tab-content active">
+      <div class="grid-container">
+        <div class="left-column">
+          <h2>Daily Goals</h2>
+          <label class="task"><input type="checkbox" id="task1"> Workout 🏋️</label>
+          <label class="task"><input type="checkbox" id="task2"> Cardio 🏃</label>
+          <label class="task"><input type="checkbox" id="task3"> Book Read 📖</label>
+          <label class="task"><input type="checkbox" id="task4"> Coding / ISS 💻</label>
+        </div>
+        <div class="right-column">
+          <h2>Progress</h2>
+          <div class="progress-bar">
+            <div id="progressFill"></div>
+          </div>
+          <p id="progressDisplay">0% Complete</p>
+          <h3>Project of the Day</h3>
+          <p id="todayProject"></p>
+        </div>
       </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="tab">
+    <!-- Projects Tab -->
+    <section id="projects" class="tab-content">
       <h2>Projects</h2>
-      <input type="text" id="projectInput" placeholder="Add a new project">
-      <button onclick="addProject()">Add Project</button>
-      <h3>Project of the Day</h3>
-      <p id="projectOfTheDay">No project yet.</p>
-      <ul id="projectList"></ul>
+      <ul id="projectsList"></ul>
     </section>
-  </main>
 
-  <script src="script.js"></script>
-</body>
-</html>
+    <!-- Journal Tab -->
+    <section id="journal" class="tab-content">
+      <h2>Journal / Notes</h2>
+      <textarea id="notes" placeholder="Optional notes..."></textarea>
