@@ -2,52 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Life Hub Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Daily Dashboard</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
-    <h1 id="date"></h1>
-    <p id="statusMsg">Let’s start strong!</p>
+    <h1>My Daily Dashboard</h1>
+    <p id="date"></p>
   </header>
 
   <nav>
-    <button class="tab-btn active" data-tab="daily">Daily Goals</button>
-    <button class="tab-btn" data-tab="projects">Projects</button>
-    <button class="tab-btn" data-tab="journal">Journal</button>
+    <button class="tab-button" data-tab="goals">Goals</button>
+    <button class="tab-button" data-tab="projects">Projects</button>
   </nav>
 
   <main>
-    <!-- Daily Goals Tab -->
-    <section id="daily" class="tab-content active">
-      <div class="grid-container">
-        <div class="left-column">
-          <h2>Daily Goals</h2>
-          <label class="task"><input type="checkbox" id="task1"> Workout 🏋️</label>
-          <label class="task"><input type="checkbox" id="task2"> Cardio 🏃</label>
-          <label class="task"><input type="checkbox" id="task3"> Book Read 📖</label>
-          <label class="task"><input type="checkbox" id="task4"> Coding / ISS 💻</label>
-        </div>
-        <div class="right-column">
-          <h2>Progress</h2>
-          <div class="progress-bar">
-            <div id="progressFill"></div>
-          </div>
-          <p id="progressDisplay">0% Complete</p>
-          <h3>Project of the Day</h3>
-          <p id="todayProject"></p>
-        </div>
-      </div>
+    <section id="goals" class="tab-content active">
+      <h2>Today's Goals</h2>
+      <ul id="goal-list">
+        <li><input type="checkbox" data-goal="workout"> Workout</li>
+        <li><input type="checkbox" data-goal="cardio"> Cardio</li>
+        <li><input type="checkbox" data-goal="book"> Book Reading</li>
+        <li><input type="checkbox" data-goal="coding"> Coding / ISS Work</li>
+      </ul>
     </section>
 
-    <!-- Projects Tab -->
     <section id="projects" class="tab-content">
-      <h2>Projects</h2>
-      <ul id="projectsList"></ul>
+      <h2>Project of the Day</h2>
+      <p id="project-text">Click below to get a project</p>
+      <button id="get-project">Get Project</button>
     </section>
+  </main>
 
-    <!-- Journal Tab -->
-    <section id="journal" class="tab-content">
-      <h2>Journal / Notes</h2>
-      <textarea id="notes" placeholder="Optional notes..."></textarea>
+  <script src="script.js"></script>
+</body>
+</html>
