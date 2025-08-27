@@ -1,65 +1,77 @@
-// Switch tabs
-function showTab(tabId) {
-  document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-  document.getElementById(tabId).classList.add('active');
+// ======== DATE DISPLAY ========
+function updateDate() {
+  const today = new Date();
+  const options = { weekday: 'long', month: 'long', day: 'numeric' };
+  document.getElementById("date").textContent = today.toLocaleDateString('en-US', options);
 }
+updateDate();
 
-// Journal functionality
-function saveJournal() {
-  const input = document.getElementById('journalInput').value;
-  if (!input.trim()) return;
-  const entryDiv = document.createElement('div');
-  entryDiv.textContent = new Date().toLocaleDateString() + ": " + input;
-  document.getElementById('journalEntries').appendChild(entryDiv);
-  document.getElementById('journalInput').value = "";
-}
+// ======== TAB SWITCHING ========
+const tabButtons = document.querySelectorAll(".tab-btn");
+const tabContents = document.querySelectorAll(".tab-content");
 
-// Project functionality
-let projects = JSON.parse(localStorage.getItem('projects')) || [];
+tabButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    // Remove active class from all
+    tabButtons.forEach(b => b.classList.remove("active"));
+    tabContents.forEach(c => c.classList.remove("active"));
 
-function addProject() {
-  const projectInput = document.getElementById('projectInput');
-  const projectName = projectInput.value.trim();
-  if (!projectName) return;
-  projects.push(projectName);
-  localStorage.setItem('projects', JSON.stringify(projects));
-  projectInput.value = "";
-  renderProjects();
-  pickProjectOfTheDay();
-}
-
-function deleteProject(index) {
-  projects.splice(index, 1);
-  localStorage.setItem('projects', JSON.stringify(projects));
-  renderProjects();
-  pickProjectOfTheDay();
-}
-
-function renderProjects() {
-  const list = document.getElementById('projectList');
-  list.innerHTML = "";
-  projects.forEach((proj, index) => {
-    const li = document.createElement('li');
-    li.textContent = proj;
-    const delBtn = document.createElement('button');
-    delBtn.textContent = "X";
-    delBtn.onclick = () => deleteProject(index);
-    li.appendChild(delBtn);
-    list.appendChild(li);
+    // Add active class to selected
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.tab).classList.add("active");
   });
-}
+});
 
-function pickProjectOfTheDay() {
-  if (projects.length === 0) {
-    document.getElementById('projectOfTheDay').textContent = "No projects available.";
-    return;
+// ======== DAILY GOALS PROGRESS ========
+const tasks = document.querySelectorAll(".task input");
+const progressFill = document.getElementById("progressFill");
+const progressDisplay = document.getElementById("progressDisplay");
+
+function updateProgress() {
+  const total = tasks.length;
+  const completed = [...tasks].filter(task => task.checked).length;
+  const percent = Math.round((completed / total) * 100);
+
+  progressFill.style.width = percent + "%";
+  progressDisplay.textContent = `${percent}% Complete`;
+
+  // Update status message
+  const statusMsg = document.getElementById("statusMsg");
+  if (percent === 100) {
+    statusMsg.textContent = "Great job! All tasks done!";
+  } else if (percent > 0) {
+    statusMsg.textContent = "Keep going!";
+  } else {
+    statusMsg.textContent = "Let’s start strong!";
   }
-  const randomProject = projects[Math.floor(Math.random() * projects.length)];
-  document.getElementById('projectOfTheDay').textContent = randomProject;
 }
 
-// On page load
-window.onload = () => {
-  renderProjects();
-  pickProjectOfTheDay();
-};
+// Attach listeners
+tasks.forEach(task => task.addEventListener("change", updateProgress));
+
+// ======== PROJECT OF THE DAY ========
+const projects = [
+  "Build Arduino ISS Tracker",
+  "Complete AI Dialect Project",
+  "Read Chapter 5 of Babel",
+  "Create Scratch Multiplayer Game"
+];
+
+function showRandomProject() {
+  const randomIndex = Math.floor(Math.random() * projects.length);
+  document.getElementById("todayProject").textContent = projects[randomIndex];
+}
+showRandomProject();
+
+// ======== JOURNAL SAVE ========
+const notes = document.getElementById("notes");
+
+// Load saved notes
+if (localStorage.getItem("journalNotes")) {
+  notes.value = localStorage.getItem("journalNotes");
+}
+
+// Save on change
+notes.addEventListener("input", () => {
+  localStorage.setItem("journalNotes", notes.value);
+});
