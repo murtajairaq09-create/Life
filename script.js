@@ -1,66 +1,65 @@
-// Date Display
-const dateElement = document.getElementById("date");
-const today = new Date();
-dateElement.textContent = today.toDateString();
-
-// Tabs Functionality
-const tabButtons = document.querySelectorAll(".tab-button");
-const tabContents = document.querySelectorAll(".tab-content");
-
-tabButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    tabButtons.forEach(b => b.classList.remove("active"));
-    tabContents.forEach(c => c.classList.remove("active"));
-    button.classList.add("active");
-    document.getElementById(button.dataset.tab).classList.add("active");
-  });
-});
-
-// Goals Checkbox + Background Color
-const goalCheckboxes = document.querySelectorAll("#goal-list input");
-const body = document.body;
-
-function updateBackground() {
-  const checkedCount = document.querySelectorAll("#goal-list input:checked").length;
-  const colors = ["#f8f9fa", "#d4edda", "#c3e6cb", "#a5d6a7", "#81c784"];
-  body.style.background = colors[checkedCount] || colors[0];
+// Switch tabs
+function showTab(tabId) {
+  document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
 }
 
-goalCheckboxes.forEach(box => {
-  box.addEventListener("change", () => {
-    localStorage.setItem(box.dataset.goal, box.checked);
-    updateBackground();
+// Journal functionality
+function saveJournal() {
+  const input = document.getElementById('journalInput').value;
+  if (!input.trim()) return;
+  const entryDiv = document.createElement('div');
+  entryDiv.textContent = new Date().toLocaleDateString() + ": " + input;
+  document.getElementById('journalEntries').appendChild(entryDiv);
+  document.getElementById('journalInput').value = "";
+}
+
+// Project functionality
+let projects = JSON.parse(localStorage.getItem('projects')) || [];
+
+function addProject() {
+  const projectInput = document.getElementById('projectInput');
+  const projectName = projectInput.value.trim();
+  if (!projectName) return;
+  projects.push(projectName);
+  localStorage.setItem('projects', JSON.stringify(projects));
+  projectInput.value = "";
+  renderProjects();
+  pickProjectOfTheDay();
+}
+
+function deleteProject(index) {
+  projects.splice(index, 1);
+  localStorage.setItem('projects', JSON.stringify(projects));
+  renderProjects();
+  pickProjectOfTheDay();
+}
+
+function renderProjects() {
+  const list = document.getElementById('projectList');
+  list.innerHTML = "";
+  projects.forEach((proj, index) => {
+    const li = document.createElement('li');
+    li.textContent = proj;
+    const delBtn = document.createElement('button');
+    delBtn.textContent = "X";
+    delBtn.onclick = () => deleteProject(index);
+    li.appendChild(delBtn);
+    list.appendChild(li);
   });
+}
 
-  // Load previous state
-  const saved = localStorage.getItem(box.dataset.goal) === "true";
-  box.checked = saved;
-});
-
-updateBackground();
-
-// Daily Reset at midnight
-setInterval(() => {
-  const now = new Date();
-  if (now.getHours() === 0 && now.getMinutes() === 0) {
-    goalCheckboxes.forEach(box => {
-      box.checked = false;
-      localStorage.setItem(box.dataset.goal, false);
-    });
-    updateBackground();
+function pickProjectOfTheDay() {
+  if (projects.length === 0) {
+    document.getElementById('projectOfTheDay').textContent = "No projects available.";
+    return;
   }
-}, 60000);
-
-// Project of the Day
-const projects = [
-  "Build a mini weather station",
-  "Write a blog post",
-  "Learn a new Arduino concept",
-  "Create a simple game",
-  "Experiment with ESP32 LCD"
-];
-
-document.getElementById("get-project").addEventListener("click", () => {
   const randomProject = projects[Math.floor(Math.random() * projects.length)];
-  document.getElementById("project-text").textContent = randomProject;
-});
+  document.getElementById('projectOfTheDay').textContent = randomProject;
+}
+
+// On page load
+window.onload = () => {
+  renderProjects();
+  pickProjectOfTheDay();
+};

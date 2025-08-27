@@ -3,35 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Daily Dashboard</title>
+  <title>My Personal Hub</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>My Daily Dashboard</h1>
-    <p id="date"></p>
+    <h1>My Personal Hub</h1>
+    <nav>
+      <button onclick="showTab('journal')">Journal</button>
+      <button onclick="showTab('goals')">Daily Goals</button>
+      <button onclick="showTab('projects')">Projects</button>
+    </nav>
   </header>
 
-  <nav>
-    <button class="tab-button" data-tab="goals">Goals</button>
-    <button class="tab-button" data-tab="projects">Projects</button>
-  </nav>
-
   <main>
-    <section id="goals" class="tab-content active">
-      <h2>Today's Goals</h2>
-      <ul id="goal-list">
-        <li><input type="checkbox" data-goal="workout"> Workout</li>
-        <li><input type="checkbox" data-goal="cardio"> Cardio</li>
-        <li><input type="checkbox" data-goal="book"> Book Reading</li>
-        <li><input type="checkbox" data-goal="coding"> Coding / ISS Work</li>
-      </ul>
+    <!-- Journal Section -->
+    <section id="journal" class="tab active">
+      <h2>Journal</h2>
+      <textarea id="journalInput" placeholder="Write your journal entry..."></textarea>
+      <button onclick="saveJournal()">Save Entry</button>
+      <div id="journalEntries"></div>
     </section>
 
-    <section id="projects" class="tab-content">
-      <h2>Project of the Day</h2>
-      <p id="project-text">Click below to get a project</p>
-      <button id="get-project">Get Project</button>
+    <!-- Daily Goals Section -->
+    <section id="goals" class="tab">
+      <h2>Daily Goals</h2>
+      <div id="goalsList">
+        <label><input type="checkbox"> Goal 1</label>
+        <label><input type="checkbox"> Goal 2</label>
+        <label><input type="checkbox"> Goal 3</label>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="tab">
+      <h2>Projects</h2>
+      <input type="text" id="projectInput" placeholder="Add a new project">
+      <button onclick="addProject()">Add Project</button>
+      <h3>Project of the Day</h3>
+      <p id="projectOfTheDay">No project yet.</p>
+      <ul id="projectList"></ul>
     </section>
   </main>
 
